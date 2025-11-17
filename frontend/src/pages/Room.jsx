@@ -114,13 +114,13 @@ const Room = () => {
       setLoading(true);
       const token = localStorage.getItem('token');
       const [roomRes, expensesRes, balancesRes] = await Promise.all([
-        axios.get(`http://localhost:5000/api/rooms/${roomId}`, {
+        axios.get(`https://roomate-r5s9.onrender.com/api/rooms/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get(`http://localhost:5000/api/expenses/room/${roomId}`, {
+        axios.get(`https://roomate-r5s9.onrender.com/api/expenses/room/${roomId}`, {
           headers: { Authorization: `Bearer ${token}` }
         }),
-        axios.get(`http://localhost:5000/api/expenses/room/${roomId}/balances`, {
+        axios.get(`https://roomate-r5s9.onrender.com/api/expenses/room/${roomId}/balances`, {
           headers: { Authorization: `Bearer ${token}` }
         })
       ]);
@@ -137,7 +137,7 @@ const Room = () => {
   };
 
   const setupWebSocket = () => {
-    const socket = io('http://localhost:5000');
+    const socket = io('https://roomate-r5s9.onrender.com');
     socket.emit('join-room', roomId);
     
     socket.on('expense-added', (newExpense) => {
@@ -197,7 +197,7 @@ const Room = () => {
   const generatePDFReport = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/api/expenses/room/${roomId}/report`, {
+      const response = await axios.get(`https://roomate-r5s9.onrender.com/api/expenses/room/${roomId}/report`, {
         headers: { Authorization: `Bearer ${token}` },
         responseType: 'blob'
       });
@@ -219,7 +219,7 @@ const Room = () => {
   const updateRoom = async (editForm) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put(`http://localhost:5000/api/rooms/${roomId}`, editForm, {
+      const response = await axios.put(`https://roomate-r5s9.onrender.com/api/rooms/${roomId}`, editForm, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRoom(response.data);
@@ -235,7 +235,7 @@ const Room = () => {
   const deleteRoom = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/rooms/${roomId}`, {
+      await axios.delete(`https://roomate-r5s9.onrender.com/api/rooms/${roomId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       showToast('Room deleted successfully');
@@ -249,7 +249,7 @@ const Room = () => {
   const leaveRoom = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/rooms/${roomId}/leave`, {}, {
+      await axios.post(`https://roomate-r5s9.onrender.com/api/rooms/${roomId}/leave`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       showToast('You have left the room');
@@ -264,7 +264,7 @@ const Room = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:5000/api/rooms/${roomId}/members`, 
+        `https://roomate-r5s9.onrender.com/api/rooms/${roomId}/members`, 
         { email: email.trim() }, 
         {
           headers: { 
@@ -286,7 +286,7 @@ const Room = () => {
   const removeMember = async (memberId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/rooms/${roomId}/members/${memberId}`, {
+      await axios.delete(`https://roomate-r5s9.onrender.com/api/rooms/${roomId}/members/${memberId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchRoomData();
@@ -300,7 +300,7 @@ const Room = () => {
   const transferOwnership = async (newOwnerId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/rooms/${roomId}/transfer-ownership`, {
+      await axios.post(`https://roomate-r5s9.onrender.com/api/rooms/${roomId}/transfer-ownership`, {
         newOwnerId
       }, {
         headers: { Authorization: `Bearer ${token}` }
@@ -316,7 +316,7 @@ const Room = () => {
   const sendReminder = async (memberId, customMessage = '') => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/rooms/${roomId}/remind`, {
+      await axios.post(`https://roomate-r5s9.onrender.com/api/rooms/${roomId}/remind`, {
         memberId,
         message: customMessage || `Hi! Just a friendly reminder about pending expenses in ${room.name}. Please check the app for details.`
       }, {
@@ -347,7 +347,7 @@ const Room = () => {
   const updateExpense = async (expenseId, expenseData) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put(`http://localhost:5000/api/expenses/${expenseId}`, expenseData, {
+      const response = await axios.put(`https://roomate-r5s9.onrender.com/api/expenses/${expenseId}`, expenseData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setEditingExpense(null);
@@ -364,7 +364,7 @@ const Room = () => {
   const deleteExpense = async (expenseId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/expenses/${expenseId}`, {
+      await axios.delete(`https://roomate-r5s9.onrender.com/api/expenses/${expenseId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchRoomData();
