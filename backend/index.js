@@ -78,12 +78,12 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.json())
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: ["http://localhost:5173","https://roomate-r5s9.onrender.com"]
 }));
 
 const io = new Server(server, { 
   cors: {
-    origin: "http://localhost:5173",
+    origin:  ["http://localhost:5173","https://roomate-r5s9.onrender.com"],
     methods: ["GET", "POST"],
     credentials: true
   },
